@@ -79,10 +79,12 @@ let DB_PROMISE: Promise<Database> | null = null;
 function getDbFilePath() {
   // next.js server runtime:
   // - in local dev you likely run from `my-app/`, so DB is at `<cwd>/products.db`
-  // - on Vercel the runtime cwd may be the repository root, so DB is at `<cwd>/my-app/products.db`
+  // - on Vercel the runtime cwd may be the repository root, so DB can be at
+  //   `<cwd>/apple_frontend3/products.db` (this project) or `<cwd>/my-app/products.db`
   const cwd = process.cwd();
   const candidates = [
     path.join(cwd, DB_FILENAME),
+    path.join(cwd, "apple_frontend3", DB_FILENAME),
     path.join(cwd, "my-app", DB_FILENAME),
   ];
 
