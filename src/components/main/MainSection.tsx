@@ -6,13 +6,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRightIcon } from "@heroicons/react/24/outline";
 
 const SLIDES = [
-  { image: "/main/AppleWatch_main.png", text: "Скидка за оплату безналом" },
-  { image: "/main/AitPods_main.png", text: "Гарантия 3 года" },
-  { image: "/main/iPhone_main.png", text: "Только оригинальный товар" },
-  { image: "/main/MacBook_main.png", text: "15000 товаров доставлено" },
-  { image: "/main/iPad_main.png", text: "Бери сейчас - плати потом" },
-  { image: "/main/Naushniki_main.png", text: "Рассрочка без процентов" },
-  { image: "/main/PlayStation_main.png", text: "Оплата криптовалютой" },
+  { image: "/Main/AppleWatch_main.png", text: "Скидка за оплату безналом" },
+  { image: "/Main/AitPods_main.png", text: "Гарантия 3 года" },
+  { image: "/Main/iPhone_main.png", text: "Только оригинальный товар" },
+  { image: "/Main/MacBook_main.png", text: "15000 товаров доставлено" },
+  { image: "/Main/iPad_main.png", text: "Бери сейчас - плати потом" },
+  { image: "/Main/Naushniki_main.png", text: "Рассрочка без процентов" },
+  { image: "/Main/PlayStation_main.png", text: "Оплата криптовалютой" },
 ] as const;
 
 /** Порядок слайдов: 0 Apple Watch, 1 AirPods, 2 iPhone, 3 MacBook, 4 iPad, 5 Naushniki, 6 PlayStation */
@@ -53,7 +53,7 @@ export function MainSection() {
           className="inline-flex items-center gap-3 rounded-2xl border border-[#c9c9c9] bg-white px-3 py-2.5 hover:border-[#221f1f] focus:outline-none focus:ring-2 focus:ring-[#221f1f] focus:ring-offset-2"
         >
           <Image
-            src="/main/ava_founder.png"
+            src="/Main/ava_founder.png"
             alt="Дмитрий Пуртов"
             width={40}
             height={40}
