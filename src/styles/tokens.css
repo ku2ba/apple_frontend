@@ -1,0 +1,117 @@
+/**
+ * Design tokens — Loom Store (Figma).
+ * Шрифты подключены из public/fonts/ (charito/, etude_noire/, akony/).
+ */
+
+@font-face {
+  font-family: "Charito";
+  src: url("/fonts/charito/Charito.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Etude Noire";
+  src: url("/fonts/etude_noire/Etude%20Noire%20Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "AKONY";
+  src: url("/fonts/akony/AKONY.woff2") format("woff2"),
+       url("/fonts/akony/AKONY.woff") format("woff"),
+       url("/fonts/akony/AKONY.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Loom Store — шрифты из макета */
+  --font-charito: "Charito", var(--font-montserrat), sans-serif;
+  --font-etude: "Etude Noire", var(--font-montserrat), sans-serif;
+  --font-akony: "AKONY", var(--font-montserrat), sans-serif;
+
+  /* Loom Store palette */
+  --color-loom-primary: #221f1f;
+  --color-loom-muted: #949494;
+  --color-loom-border: #e4e4e4;
+  --color-loom-border-soft: #c9c9c9;
+  --color-loom-surface: #f7f7f7;
+  --color-loom-surface-alt: #fafafc;
+  --color-loom-text-secondary: #3f3f3f;
+  --color-loom-text-tertiary: #535353;
+  --color-loom-footer: #878787;
+
+  /* Spacing */
+  --space-section: 4rem;
+  --space-container: 1.5rem;
+}
+
+/* Каталог категорий: Charito, как в Figma */
+.loom-category-nav {
+  font-family: var(--font-charito), "Charito", var(--font-montserrat), sans-serif;
+}
+
+/* Промо-текст главного экрана: Charito, чёрная заливка */
+.loom-promo-text {
+  font-family: var(--font-charito), var(--font-montserrat), sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  color: #221f1f;
+}
+
+/* Блок «Акционные товары» / «НОВИНКИ» — шрифты как в Figma */
+.loom-promo-section-title {
+  font-family: var(--font-charito), "Charito", var(--font-montserrat), sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  line-height: 1;
+  color: #221f1f;
+}
+.loom-promo-product-title {
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1;
+  color: #221f1f;
+}
+.loom-promo-badge {
+  font-family: var(--font-etude), "Etude Noire", var(--font-montserrat), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  color: #221f1f;
+  text-transform: uppercase;
+}
+.loom-promo-price {
+  font-family: var(--font-etude), "Etude Noire", var(--font-montserrat), sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1;
+  color: #949494;
+}
+
+/* Футер: логотип LOOM STORE — Charito 170 Regular, чёрная заливка */
+.footer-loom-logo {
+  font-family: var(--font-charito), "Charito", var(--font-montserrat), sans-serif;
+  font-size: clamp(48px, 15vw, 170px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #221f1f;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration: 0.01ms;
+  }
+}
