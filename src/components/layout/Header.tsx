@@ -2,6 +2,19 @@
 
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
+import { useCart } from "@/lib/cart";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+function formatPriceRub(value: number) {
+  return new Intl.NumberFormat("ru-RU").format(value) + " Р";
+}
 
 /** Иконка корзины (outline), как в Heroicons — inline SVG, чтобы избежать ошибок HMR с heroicons */
 function CartIcon({ className }: { className?: string }) {
@@ -21,6 +34,8 @@ const navItems = [
 ] as const;
 
 export function Header() {
+  const { items, totalItems, removeItem } = useCart();
+
   return (
     <header className="border-b border-[#e4e4e4] bg-white">
       <div className="mx-auto flex max-w-[1920px] items-center gap-2 px-4 py-3 sm:px-6 lg:px-8">
@@ -63,14 +78,93 @@ export function Header() {
         </div>
 
         {/* Корзина — такой же стиль и шрифт, справа иконка корзины */}
-        <Link
-          href="#cart"
-          className="flex h-[46px] items-center justify-center gap-2 rounded-lg border border-[#c9c9c9] bg-white px-5 py-3 text-[14px] font-normal uppercase leading-none text-[#221f1f] hover:bg-[#f7f7f7] focus:outline-none"
-          style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
-        >
-          КОРЗИНА
-          <CartIcon className="size-5 shrink-0" />
-        </Link>
+        <Dialog>
+          <DialogTrigger asChild>
+            <button
+              type="button"
+              className="flex h-[46px] items-center justify-center gap-2 rounded-lg border border-[#c9c9c9] bg-white px-5 py-3 text-[14px] font-normal uppercase leading-none text-[#221f1f] hover:bg-[#f7f7f7] focus:outline-none"
+              style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+            >
+              КОРЗИНА
+              <span className="relative inline-flex">
+                <CartIcon className="size-5 shrink-0" />
+                {totalItems > 0 && (
+                  <span className="absolute -right-2 -top-2 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-[#d31b1b] px-1 text-[11px] font-semibold leading-none text-white">
+                    {totalItems}
+                  </span>
+                )}
+              </span>
+            </button>
+          </DialogTrigger>
+
+          <DialogContent className="sm:max-w-[620px]">
+            <DialogHeader>
+              <DialogTitle>Корзина</DialogTitle>
+            </DialogHeader>
+
+            <div className="max-h-[50vh] space-y-3 overflow-y-auto pr-1">
+              {items.length === 0 ? (
+                <p
+                  className="py-6 text-[14px] text-[#626262]"
+                  style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+                >
+                  В корзине пока нет товаров.
+                </p>
+              ) : (
+                items.map((item) => (
+                  <div
+                    key={item.id}
+                    className="relative rounded-lg border border-[#e4e4e4] p-3"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => removeItem(item.id)}
+                      aria-label={`Удалить ${item.name} из корзины`}
+                      className="absolute right-2 top-2 inline-flex h-7 w-7 items-center justify-center rounded-md text-[#949494] hover:bg-[#f7f7f7] hover:text-[#221f1f] focus:outline-none"
+                    >
+                      ×
+                    </button>
+                    <p
+                      className="pr-8 text-[14px] font-medium text-[#221f1f]"
+                      style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+                    >
+                      {item.name}
+                    </p>
+                    <p
+                      className="mt-1 text-[13px] text-[#626262]"
+                      style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+                    >
+                      Кол-во: {item.quantity}
+                      {item.color ? ` · ${item.color}` : ""}
+                      {item.memoryGb ? ` · ${item.memoryGb} ГБ` : ""}
+                    </p>
+                    <div className="mt-2 flex items-baseline gap-2">
+                      <span className="text-[18px] text-[#221f1f]">
+                        {formatPriceRub(item.price)}
+                      </span>
+                      {item.priceOld && item.priceOld > item.price && (
+                        <span className="text-[15px] text-[#949494] line-through">
+                          {formatPriceRub(item.priceOld)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <DialogFooter className="justify-end">
+              <button
+                type="button"
+                className="inline-flex h-[42px] items-center justify-center rounded-lg bg-[#221f1f] px-5 text-[14px] uppercase leading-none text-white hover:bg-[#221f1f]/90 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+                disabled={items.length === 0}
+              >
+                Перейти к оплате
+              </button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </header>
   );

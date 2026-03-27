@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Montserrat } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { CartProvider } from "@/lib/cart";
 import "./globals.css";
 
 const akony = localFont({
@@ -48,9 +49,11 @@ export default function RootLayout({
       <body
         className={`${akony.variable} ${charito.variable} ${etudeNoire.variable} ${montserrat.variable} font-sans flex min-h-screen flex-col antialiased bg-white text-[#221f1f]`}
       >
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <CartProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

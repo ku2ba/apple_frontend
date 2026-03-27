@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getProductBySlug } from "@/lib/products-db";
 import { getProductGalleryImages } from "@/lib/product-media";
+import { IphoneModelCardsClient } from "@/components/product/IphoneModelCardsClient";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -10,6 +10,15 @@ export default async function IphoneModelPage({ params }: Props) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
   if (!product || product.category !== "iphone") notFound();
+
+  const galleryByColor: Record<string, string[]> = {};
+  for (const color of product.colors) {
+    galleryByColor[color] = getProductGalleryImages({
+      category: product.category,
+      title: product.title,
+      color,
+    });
+  }
 
   return (
     <div className="bg-white">
@@ -37,56 +46,7 @@ export default async function IphoneModelPage({ params }: Props) {
           {product.title}
         </h1>
 
-        <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-3">
-          {product.colors.map((color) => {
-            const preview =
-              getProductGalleryImages({
-                category: product.category,
-                title: product.title,
-                color,
-              })[0] ?? null;
-
-            return (
-              <li key={color}>
-                <Link
-                  href={`/product/${product.slug}?color=${encodeURIComponent(color)}`}
-                  className="flex h-full flex-col overflow-hidden rounded-lg border border-[#e4e4e4] bg-white shadow-sm transition-shadow hover:shadow-md"
-                >
-                  <div className="relative h-[140px] w-full shrink-0 overflow-hidden rounded-t-lg bg-[#f7f7f7] px-4 pt-4">
-                    {preview && (
-                      <Image
-                        src={preview}
-                        alt={product.title}
-                        fill
-                        className="object-contain object-center"
-                        sizes="(max-width: 640px) 50vw, 33vw"
-                        unoptimized
-                      />
-                    )}
-                  </div>
-                  <div className="flex flex-1 flex-col justify-center gap-1 p-4 pt-3 text-center">
-                    <h2
-                      className="text-[15px] font-normal leading-tight text-[#221f1f]"
-                      style={{
-                        fontFamily: "var(--font-montserrat), sans-serif",
-                      }}
-                    >
-                      {product.title}
-                    </h2>
-                    <p
-                      className="text-[13px] font-normal text-[#949494]"
-                      style={{
-                        fontFamily: "var(--font-montserrat), sans-serif",
-                      }}
-                    >
-                      {color}
-                    </p>
-                  </div>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        <IphoneModelCardsClient product={product} galleryByColor={galleryByColor} />
       </div>
     </div>
   );
