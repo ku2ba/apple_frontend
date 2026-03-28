@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useCart } from "@/lib/cart";
 import type { Product, ProductVariant } from "@/lib/products-db";
 
@@ -69,47 +70,54 @@ export function IphoneModelCardsClient({
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {visibleVariants.map((variant) => (
           <li key={variant.variantId} className="overflow-hidden rounded-lg border border-[#e4e4e4] bg-white shadow-sm">
-            <div className="relative h-[180px] w-full overflow-hidden bg-[#f7f7f7]">
-              {previewImage && (
-                <Image
-                  src={previewImage}
-                  alt={variant.name}
-                  fill
-                  className="object-contain p-4"
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  unoptimized
-                />
-              )}
-            </div>
-
-            <div className="flex flex-col gap-3 p-4">
-              <h2
-                className="text-[15px] leading-tight text-[#221f1f]"
-                style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
-              >
-                {variant.name}
-              </h2>
-
-              {variant.memoryGb != null && (
-                <p
-                  className="text-[14px] text-[#626262]"
-                  style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
-                >
-                  Память: {variant.memoryGb} ГБ
-                </p>
-              )}
-
-              <div className="mt-1 flex items-baseline gap-2">
-                <span className="loom-promo-price text-[22px]">
-                  {formatPriceRub(variant.price)}
-                </span>
-                {variant.priceOld > variant.price && (
-                  <span className="loom-promo-price text-[18px] line-through">
-                    {formatPriceRub(variant.priceOld)}
-                  </span>
+            <Link
+              href={`/product/${product.slug}?color=${encodeURIComponent(variant.color)}`}
+              className="block"
+            >
+              <div className="relative h-[180px] w-full overflow-hidden bg-[#f7f7f7]">
+                {previewImage && (
+                  <Image
+                    src={previewImage}
+                    alt={variant.name}
+                    fill
+                    className="object-contain p-4"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    unoptimized
+                  />
                 )}
               </div>
 
+              <div className="flex flex-col gap-3 p-4">
+                <h2
+                  className="text-[15px] leading-tight text-[#221f1f]"
+                  style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+                >
+                  {variant.name}
+                </h2>
+
+                {variant.memoryGb != null && (
+                  <p
+                    className="text-[14px] text-[#626262]"
+                    style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+                  >
+                    Память: {variant.memoryGb} ГБ
+                  </p>
+                )}
+
+                <div className="mt-1 flex items-baseline gap-2">
+                  <span className="loom-promo-price text-[22px]">
+                    {formatPriceRub(variant.price)}
+                  </span>
+                  {variant.priceOld > variant.price && (
+                    <span className="loom-promo-price text-[18px] line-through">
+                      {formatPriceRub(variant.priceOld)}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </Link>
+
+            <div className="px-4 pb-4">
               <button
                 type="button"
                 onClick={() =>
@@ -123,12 +131,12 @@ export function IphoneModelCardsClient({
                     memoryGb: variant.memoryGb,
                   })
                 }
-                className="mt-2 inline-flex h-[44px] items-center justify-center rounded-lg bg-[#221f1f] px-4 text-[14px] font-normal uppercase leading-none text-white hover:bg-[#221f1f]/90 focus:outline-none"
+                className="mt-2 inline-flex h-[44px] w-full items-center justify-center rounded-lg bg-[#221f1f] px-4 text-[14px] font-normal uppercase leading-none text-white hover:bg-[#221f1f]/90 focus:outline-none"
                 style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
               >
                 В корзину
               </button>
-            </div>
+              </div>
           </li>
         ))}
       </ul>
